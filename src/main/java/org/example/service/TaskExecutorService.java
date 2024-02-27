@@ -49,7 +49,7 @@ public class TaskExecutorService {
             if (!participation.getMemberId().equals(memberId)) {
                 continue;
             }
-            if (participation.getStatus() == NOT_ASKED || participation.getStatus() == REJECTED) {
+            if (Objects.equals(participation.getStatus(), NOT_ASKED) || Objects.equals(participation.getStatus(), REJECTED)) {
                 continue;
             }
 
@@ -57,7 +57,7 @@ public class TaskExecutorService {
                 if (survey.getSurveyId().equals(participation.getSurveyId())) {
                     result.add(SurveyPoint.builder()
                             .surveyId(survey.getSurveyId())
-                            .points(participation.getStatus() == FILTERED ?
+                            .points(Objects.equals(participation.getStatus(), FILTERED) ?
                                     survey.getFilteredPoints() : survey.getCompletionPoints())
                             .build());
                 }
@@ -78,7 +78,7 @@ public class TaskExecutorService {
 
         List<Integer> membersIdsNotParticipatedInSurvey = participations.stream()
                 .filter(participation -> participation.getSurveyId().equals(survey.getSurveyId())
-                        && participation.getStatus() == NOT_ASKED)
+                        && Objects.equals(participation.getStatus(), NOT_ASKED))
                 .map(Participation::getMemberId)
                 .toList();
         List<Member> membersNotParticipatedInSurvey = members.stream()
@@ -102,9 +102,9 @@ public class TaskExecutorService {
             int participationCounter = 0;
             for (Participation participation : participations) {
                 if (participation.getSurveyId().equals(survey.getSurveyId())) {
-                    numberOfCompletes = participation.getStatus() == COMPLETED ? numberOfCompletes + 1 : numberOfCompletes;
-                    filteredParticipants = participation.getStatus() == FILTERED ? filteredParticipants + 1 : filteredParticipants;
-                    rejectedParticipants = participation.getStatus() == REJECTED ? rejectedParticipants + 1 : rejectedParticipants;
+                    numberOfCompletes = Objects.equals(participation.getStatus(), COMPLETED) ? numberOfCompletes + 1 : numberOfCompletes;
+                    filteredParticipants = Objects.equals(participation.getStatus(), FILTERED) ? filteredParticipants + 1 : filteredParticipants;
+                    rejectedParticipants = Objects.equals(participation.getStatus(), REJECTED) ? rejectedParticipants + 1 : rejectedParticipants;
                 }
                 if (Objects.nonNull(participation.getLength())) {
                     sumLength += (double) participation.getLength();
