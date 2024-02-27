@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.SurveyPoint;
 import org.example.dto.SurveyStatistics;
 import org.example.model.Member;
@@ -11,14 +12,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TaskExecutorService {
+@RequiredArgsConstructor
+public class DataFetchService {
 
     private static final Integer NOT_ASKED = 1;
     private static final Integer REJECTED = 2;
     private static final Integer FILTERED = 3;
     private static final Integer COMPLETED = 4;
 
-    public List<Member> fetchRespondersBySurveyId(List<Participation> participations, List<Member> members, Integer surveyId) {
+    private final List<Participation> participations;
+    private final List<Member> members;
+    private final List<Survey> surveys;
+
+    public List<Member> fetchRespondersBySurveyId(Integer surveyId) {
         List<Integer> memberIds = participations.stream()
                 .filter(participation -> participation.getSurveyId().equals(surveyId)
                         && Objects.equals(participation.getStatus(), COMPLETED))
@@ -30,7 +36,7 @@ public class TaskExecutorService {
                 .collect(Collectors.toList());
     }
 
-    public List<Survey> fetchSurveyByMemberId(List<Participation> participations, List<Survey> surveys, Integer memberId) {
+    public List<Survey> fetchSurveyByMemberId(Integer memberId) {
         List<Integer> surveyIds = participations.stream()
                 .filter(participation -> participation.getMemberId().equals(memberId)
                         && Objects.equals(participation.getStatus(), COMPLETED))
@@ -42,7 +48,7 @@ public class TaskExecutorService {
                 .collect(Collectors.toList());
     }
 
-    public List<SurveyPoint> fetchPointsByMemberId(List<Participation> participations, List<Survey> surveys, Integer memberId) {
+    public List<SurveyPoint> fetchPointsByMemberId(Integer memberId) {
         List<SurveyPoint> result = new ArrayList<>();
 
         for (Participation participation : participations) {
@@ -66,7 +72,7 @@ public class TaskExecutorService {
         return result;
     }
 
-    public List<Member> fetchMembersToBeInvitedBySurvey(List<Participation> participations, List<Member> members, Survey survey) {
+    public List<Member> fetchMembersToBeInvitedBySurvey(Survey survey) {
         List<Integer> memberIdsInParticipations = participations.stream()
                 .map(Participation::getMemberId)
                 .distinct()
@@ -92,7 +98,7 @@ public class TaskExecutorService {
         return result;
     }
 
-    public List<SurveyStatistics> fetchSurveysStatistics(List<Participation> participations, List<Survey> surveys) {
+    public List<SurveyStatistics> fetchSurveysStatistics() {
         List<SurveyStatistics> result = new ArrayList<>();
         for (Survey survey : surveys) {
             int numberOfCompletes = 0;
@@ -102,9 +108,12 @@ public class TaskExecutorService {
             int participationCounter = 0;
             for (Participation participation : participations) {
                 if (participation.getSurveyId().equals(survey.getSurveyId())) {
-                    numberOfCompletes = Objects.equals(participation.getStatus(), COMPLETED) ? numberOfCompletes + 1 : numberOfCompletes;
-                    filteredParticipants = Objects.equals(participation.getStatus(), FILTERED) ? filteredParticipants + 1 : filteredParticipants;
-                    rejectedParticipants = Objects.equals(participation.getStatus(), REJECTED) ? rejectedParticipants + 1 : rejectedParticipants;
+                    numberOfCompletes = Objects.equals(participation.getStatus(), COMPLETED) ?
+                            numberOfCompletes + 1 : numberOfCompletes;
+                    filteredParticipants = Objects.equals(participation.getStatus(), FILTERED) ?
+                            filteredParticipants + 1 : filteredParticipants;
+                    rejectedParticipants = Objects.equals(participation.getStatus(), REJECTED) ?
+                            rejectedParticipants + 1 : rejectedParticipants;
                 }
                 if (Objects.nonNull(participation.getLength())) {
                     sumLength += (double) participation.getLength();

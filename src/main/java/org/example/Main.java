@@ -5,6 +5,7 @@ import org.example.model.Participation;
 import org.example.model.Status;
 import org.example.model.Survey;
 import org.example.service.CsvReader;
+import org.example.service.DataFetchService;
 
 import java.net.URL;
 import java.util.List;
@@ -26,5 +27,7 @@ public class Main {
         participations = csvReader.readParticipations(participationsUrl.getPath());
         statuses = csvReader.readStatuses(statusesUrl.getPath());
         surveys = csvReader.readSurveys(surveysUrl.getPath());
+
+        DataFetchService dataFetchService = new DataFetchService(participations, members, surveys);
     }
 }
