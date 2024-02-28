@@ -25,7 +25,7 @@ public class CsvReader {
                         .memberId(Integer.parseInt(record[0]))
                         .fullName(record[1])
                         .emailAddress(record[2])
-                        .isActive(Boolean.parseBoolean(record[3]))
+                        .isActive("1".equals(record[3]) ? true : false)
                         .build());
             }
         } catch (IOException | CsvException exception) {
