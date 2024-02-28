@@ -2,13 +2,10 @@ package org.example.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Data
 public class SurveyPoint {
 
     private Integer surveyId;

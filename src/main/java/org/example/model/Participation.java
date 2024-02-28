@@ -2,12 +2,10 @@ package org.example.model;
 
 import lombok.*;
 
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@Data
 public class Participation {
 
     private Integer memberId;

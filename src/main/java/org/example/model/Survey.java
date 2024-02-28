@@ -2,13 +2,10 @@ package org.example.model;
 
 import lombok.*;
 
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Data
 public class Survey {
 
     private Integer surveyId;
