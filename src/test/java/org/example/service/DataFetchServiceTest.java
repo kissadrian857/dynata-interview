@@ -129,7 +129,8 @@ class DataFetchServiceTest {
         return Stream.of(
                 Arguments.of(
                         List.of(Participation.builder().memberId(1).surveyId(1).status(COMPLETED).build(),
-                                Participation.builder().memberId(1).surveyId(2).status(FILTERED).build()),
+                                Participation.builder().memberId(1).surveyId(2).status(FILTERED).build(),
+                                Participation.builder().memberId(2).surveyId(2).status(FILTERED).build()),
                         List.of(survey1, survey2),
                         1,
                         List.of(SurveyPoint.builder().surveyId(1).points(5).build(),
