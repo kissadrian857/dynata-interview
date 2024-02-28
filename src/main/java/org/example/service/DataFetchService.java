@@ -107,14 +107,17 @@ public class DataFetchService {
             double sumLength = 0.0;
             int participationCounter = 0;
             for (Participation participation : participations) {
-                if (participation.getSurveyId().equals(survey.getSurveyId())) {
-                    numberOfCompletes = Objects.equals(participation.getStatus(), COMPLETED) ?
-                            numberOfCompletes + 1 : numberOfCompletes;
-                    filteredParticipants = Objects.equals(participation.getStatus(), FILTERED) ?
-                            filteredParticipants + 1 : filteredParticipants;
-                    rejectedParticipants = Objects.equals(participation.getStatus(), REJECTED) ?
-                            rejectedParticipants + 1 : rejectedParticipants;
+                if (!participation.getSurveyId().equals(survey.getSurveyId())) {
+                    continue;
                 }
+
+                numberOfCompletes = Objects.equals(participation.getStatus(), COMPLETED) ?
+                        numberOfCompletes + 1 : numberOfCompletes;
+                filteredParticipants = Objects.equals(participation.getStatus(), FILTERED) ?
+                        filteredParticipants + 1 : filteredParticipants;
+                rejectedParticipants = Objects.equals(participation.getStatus(), REJECTED) ?
+                        rejectedParticipants + 1 : rejectedParticipants;
+
                 if (Objects.nonNull(participation.getLength())) {
                     sumLength += (double) participation.getLength();
                     participationCounter++;
@@ -126,7 +129,7 @@ public class DataFetchService {
                     .numberOfCompletes(numberOfCompletes)
                     .numberOfFilteredParticipants(filteredParticipants)
                     .numberOfRejectedParticipants(rejectedParticipants)
-                    .averageLength(sumLength / participationCounter)
+                    .averageLength(participationCounter == 0 ? 0.0 : sumLength / participationCounter)
                     .build());
         }
 
