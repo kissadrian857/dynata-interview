@@ -29,5 +29,26 @@ public class Main {
         surveys = csvReader.readSurveys(surveysUrl.getPath());
 
         DataFetchService dataFetchService = new DataFetchService(participations, members, surveys);
+
+        System.out.println("a,");
+        dataFetchService.fetchRespondersBySurveyId(2).stream()
+                .forEach(System.out::println);
+
+        System.out.println("\nb,");
+        dataFetchService.fetchSurveyByMemberId(1).stream()
+                .forEach(System.out::println);
+
+        System.out.println("\nc,");
+        dataFetchService.fetchPointsByMemberId(1).stream()
+                .forEach(System.out::println);
+
+        System.out.println("\nd,");
+        dataFetchService.fetchMembersToBeInvitedBySurvey(Survey.builder().surveyId(1).build()).stream()
+                .forEach(System.out::println);
+
+        System.out.println("\ne,");
+        dataFetchService.fetchSurveysStatistics().stream()
+                .forEach(System.out::println);
+
     }
 }
