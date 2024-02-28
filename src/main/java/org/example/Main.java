@@ -7,7 +7,7 @@ import org.example.model.Survey;
 import org.example.service.CsvReader;
 import org.example.service.DataFetchService;
 
-import java.net.URL;
+import java.io.InputStream;
 import java.util.List;
 
 public class Main {
@@ -17,16 +17,16 @@ public class Main {
         List<Status> statuses;
         List<Survey> surveys;
 
-        URL membersUrl = Main.class.getResource("/members.csv");
-        URL participationsUrl = Main.class.getResource("/participations.csv");
-        URL statusesUrl = Main.class.getResource("/statuses.csv");
-        URL surveysUrl = Main.class.getResource("/surveys.csv");
+        InputStream membersInputStream = Main.class.getResourceAsStream("/members.csv");
+        InputStream participationsInputStream = Main.class.getResourceAsStream("/participations.csv");
+        InputStream statusesInputStream = Main.class.getResourceAsStream("/statuses.csv");
+        InputStream surveysInputStream = Main.class.getResourceAsStream("/surveys.csv");
 
         CsvReader csvReader = new CsvReader();
-        members = csvReader.readMembers(membersUrl.getPath());
-        participations = csvReader.readParticipations(participationsUrl.getPath());
-        statuses = csvReader.readStatuses(statusesUrl.getPath());
-        surveys = csvReader.readSurveys(surveysUrl.getPath());
+        members = csvReader.readMembers(membersInputStream);
+        participations = csvReader.readParticipations(participationsInputStream);
+        statuses = csvReader.readStatuses(statusesInputStream);
+        surveys = csvReader.readSurveys(surveysInputStream);
 
         DataFetchService dataFetchService = new DataFetchService(participations, members, surveys);
 

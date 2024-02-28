@@ -7,7 +7,7 @@ import org.example.model.Status;
 import org.example.model.Survey;
 import org.junit.jupiter.api.Test;
 
-import java.net.URL;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +19,7 @@ class CsvReaderTest {
     @Test
     void readMembers() {
         //given
-        URL membersUrl = Main.class.getResource("/test-members.csv");
+        InputStream membersInputStream = Main.class.getResourceAsStream("/test-members.csv");
         List<Member> expectedResult = List.of(Member.builder()
                         .memberId(1)
                         .fullName("Malissa Arn")
@@ -34,7 +34,7 @@ class CsvReaderTest {
                         .build());
 
         //when
-        List<Member> actualResult = underTest.readMembers(membersUrl.getPath());
+        List<Member> actualResult = underTest.readMembers(membersInputStream);
 
         //then
         assertThat(actualResult).hasSameElementsAs(expectedResult);
@@ -43,13 +43,13 @@ class CsvReaderTest {
     @Test
     void readParticipations() {
         //given
-        URL participationsUrl = Main.class.getResource("/test-participations.csv");
+        InputStream participationsInputStream = Main.class.getResourceAsStream("/test-participations.csv");
         List<Participation> expectedResult = List.of(
                 Participation.builder().memberId(1).surveyId(16).status(4).length(10).build(),
                 Participation.builder().memberId(2).surveyId(25).status(3).length(null).build());
 
         //when
-        List<Participation> actualResult = underTest.readParticipations(participationsUrl.getPath());
+        List<Participation> actualResult = underTest.readParticipations(participationsInputStream);
 
         //then
         assertThat(actualResult).hasSameElementsAs(expectedResult);
@@ -58,13 +58,13 @@ class CsvReaderTest {
     @Test
     void readStatuses() {
         //given
-        URL statusesUrl = Main.class.getResource("/test-statuses.csv");
+        InputStream statusesInputStream = Main.class.getResourceAsStream("/test-statuses.csv");
         List<Status> expectedResult = List.of(
                 Status.builder().statusId(1).name("Not asked").build(),
                 Status.builder().statusId(2).name("Rejected").build());
 
         //when
-        List<Status> actualResult = underTest.readStatuses(statusesUrl.getPath());
+        List<Status> actualResult = underTest.readStatuses(statusesInputStream);
 
         //then
         assertThat(actualResult).hasSameElementsAs(expectedResult);
@@ -73,7 +73,7 @@ class CsvReaderTest {
     @Test
     void readSurveys() {
         //given
-        URL surveysUrl = Main.class.getResource("/test-surveys.csv");
+        InputStream surveysInputStream = Main.class.getResourceAsStream("/test-surveys.csv");
         List<Survey> expectedResult = List.of(
                 Survey.builder()
                         .surveyId(1)
@@ -91,7 +91,7 @@ class CsvReaderTest {
                         .build());
 
         //when
-        List<Survey> actualResult = underTest.readSurveys(surveysUrl.getPath());
+        List<Survey> actualResult = underTest.readSurveys(surveysInputStream);
 
         //then
         assertThat(actualResult).hasSameElementsAs(expectedResult);

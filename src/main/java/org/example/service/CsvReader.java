@@ -7,16 +7,17 @@ import org.example.model.Participation;
 import org.example.model.Status;
 import org.example.model.Survey;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CsvReader {
 
-    public List<Member> readMembers(String fileName) {
+    public List<Member> readMembers(InputStream inputStream) {
         List<Member> result = new ArrayList<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream))) {
             List<String[]> records = csvReader.readAll();
             records = records.subList(1, records.size());
 
@@ -35,9 +36,9 @@ public class CsvReader {
         return result;
     }
 
-    public List<Participation> readParticipations(String fileName) {
+    public List<Participation> readParticipations(InputStream inputStream) {
         List<Participation> result = new ArrayList<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream))) {
             List<String[]> records = csvReader.readAll();
             records = records.subList(1, records.size());
 
@@ -56,9 +57,9 @@ public class CsvReader {
         return result;
     }
 
-    public List<Status> readStatuses(String fileName) {
+    public List<Status> readStatuses(InputStream inputStream) {
         List<Status> result = new ArrayList<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream))) {
             List<String[]> records = csvReader.readAll();
             records = records.subList(1, records.size());
 
@@ -75,9 +76,9 @@ public class CsvReader {
         return result;
     }
 
-    public List<Survey> readSurveys(String fileName) {
+    public List<Survey> readSurveys(InputStream inputStream) {
         List<Survey> result = new ArrayList<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream))) {
             List<String[]> records = csvReader.readAll();
             records = records.subList(1, records.size());
 
